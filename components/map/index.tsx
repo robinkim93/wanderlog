@@ -11,8 +11,7 @@ import { SearchInput } from "../search-input";
 import { Button } from "../ui/button";
 import { MapPin } from "lucide-react";
 
-const KAKAO_SDK_URL =
-  `//dapi.kakao.com/v2/maps/sdk.js?appkey=${"549c98456b107173986e7397e5aaa19a"}&autoload=false&libraries=services,clusterer,drawing`!;
+const KAKAO_SDK_URL = process.env.NEXT_PUBLIC_KAKAO_SDK_URL!;
 
 export interface IMarker {
   position: {
