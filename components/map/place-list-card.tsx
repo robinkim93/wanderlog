@@ -1,4 +1,12 @@
-import { Dispatch, MouseEvent, SetStateAction, useEffect } from "react";
+import {
+  Dispatch,
+  MouseEvent,
+  MutableRefObject,
+  SetStateAction,
+  forwardRef,
+  useEffect,
+  useRef,
+} from "react";
 import { IMarker } from ".";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
@@ -20,8 +28,11 @@ export const PlaceListCard = ({
   onClickSaveButton,
   buttonType,
 }: PlaceListCardProps) => {
+  const cardRef = useRef<HTMLDivElement>(null);
+
   const onClickCard = () => {
     setInfo(marker);
+    // console.log(cardRef.current?.scrollIntoView({ behavior: "smooth" }));
   };
 
   return (
@@ -31,6 +42,7 @@ export const PlaceListCard = ({
         "border-t border-slate-500 cursor-pointer hover:bg-slate-300 pr-2 group",
         info && info.id === marker.id && "bg-slate-300"
       )}
+      ref={cardRef}
     >
       <div className="flex flex-row justify-between">
         <div className="flex flex-col py-5 px-2 space-y-2">

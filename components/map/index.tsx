@@ -9,7 +9,6 @@ import { InfoWindow } from "./info-window";
 import { usePlaceListSave } from "@/hooks/usePlaceListSave";
 import { SearchInput } from "../search-input";
 import { Button } from "../ui/button";
-import { MapPin } from "lucide-react";
 
 const KAKAO_SDK_URL = process.env.NEXT_PUBLIC_KAKAO_SDK_URL!;
 
@@ -37,8 +36,9 @@ export const KaKaoMap = () => {
   const [search, setSearch] = useState<string>();
   const [listMode, setListMode] = useState<"search" | "save">("search");
   const [pagination, setPagination] = useState<kakao.maps.Pagination>();
-  const { placeList, addPlaceList, removePlaceList } = usePlaceListSave();
-  const placeListRef = useRef<HTMLDivElement | null>(null);
+  const { placeList, addPlaceList, removePlaceList, status } =
+    usePlaceListSave();
+  const placeListRef = useRef<HTMLDivElement>(null);
 
   const onChangeSearchInput = (e: ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
@@ -89,15 +89,8 @@ export const KaKaoMap = () => {
 
   const onClickMarker = (marker: IMarker) => {
     setInfo(marker);
+    // ref 이용해서 scroll 움직이기
   };
-
-  useEffect(() => {
-    initMap({});
-  }, [map]);
-
-  useEffect(() => {
-    console.log(placeListRef.current?.scroll);
-  }, [placeListRef]);
 
   const initMap = ({ searchKeyword }: { searchKeyword?: string }) => {
     if (!map) return;
@@ -134,8 +127,7 @@ export const KaKaoMap = () => {
           setMarkers(markers);
           setPagination(_pagination);
 
-          // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
-          console.log(bounds, data[0]);
+          // 검색된 장소 위치를 기준으로 지도 범위를 재설정
           map.setBounds(bounds);
           map.setLevel(6);
         }
@@ -143,9 +135,18 @@ export const KaKaoMap = () => {
     );
   };
 
+  // useEffect(() => {
+  //   console.log(markers);
+  // }, [markers]);
+
   useEffect(() => {
-    console.log(markers);
-  }, [markers]);
+    initMap({});
+  }, [map]);
+
+  // duplicate 때 툴팁으로 보여줄 수 있을듯
+  // useEffect(() => {
+  //   console.log(status);
+  // }, [status]);
 
   return (
     <div className="flex-1 w-full h-full bg-inherit">
@@ -171,9 +172,9 @@ export const KaKaoMap = () => {
               </Button>
             </div>
           </div>
-          <div id="place-list" className="flex flex-col" ref={placeListRef}>
+          <div className="flex flex-col" ref={placeListRef}>
             {listMode === "search"
-              ? markers.map((marker) => {
+              ? markers.map((marker, index) => {
                   return (
                     <PlaceListCard
                       key={marker.id}
@@ -187,7 +188,7 @@ export const KaKaoMap = () => {
                     />
                   );
                 })
-              : placeList.map((place) => (
+              : placeList.map((place, index) => (
                   <PlaceListCard
                     key={place.id}
                     marker={place}
@@ -207,7 +208,7 @@ export const KaKaoMap = () => {
           </div>
         </div>
 
-        <Map // 로드뷰를 표시할 Container
+        <Map
           center={
             info
               ? info.position
@@ -230,14 +231,14 @@ export const KaKaoMap = () => {
                   {...(marker.isSelected
                     ? {
                         image: {
-                          src: "/map-marker.png",
-                          size: { width: 64, height: 69 },
+                          src: "/saved_marker.png",
+                          size: { width: 60, height: 65 },
                         },
                       }
                     : {
                         image: {
-                          src: "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png",
-                          size: { width: 30, height: 30 },
+                          src: "/marker.png",
+                          size: { width: 30, height: 45 },
                         },
                       })}
                 >

@@ -13,10 +13,6 @@ interface ListDetailPage {
 export default function ListDetailPage({ params }: ListDetailPage) {
   const { placeList } = usePlaceListSave();
 
-  useEffect(() => {
-    console.log(placeList);
-  }, [placeList]);
-
   return (
     <main className="h-screen w-full">
       {/* {params.listId} */}

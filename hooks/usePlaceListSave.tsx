@@ -5,15 +5,23 @@ interface IPlaceListSave {
   placeList: IMarker[];
   addPlaceList: (place: IMarker) => void;
   removePlaceList: (placeId: string) => void;
+  status: "success" | "" | "duplicate";
 }
 
 export const usePlaceListSave = create<IPlaceListSave>((set) => ({
   placeList: [],
-  addPlaceList: (place) =>
+  status: "success",
+  addPlaceList: async (place) =>
     set((prev) => {
-      return {
-        placeList: [...prev.placeList, place],
-      };
+      const isExistPlaceList = prev.placeList.findIndex(
+        (value) => value.id === place.id
+      );
+      return isExistPlaceList === -1
+        ? {
+            placeList: [...prev.placeList, place],
+            status: "success",
+          }
+        : { placeList: [...prev.placeList], status: "duplicate" };
     }),
   removePlaceList: (placeId) =>
     set((prev) => {
@@ -22,6 +30,7 @@ export const usePlaceListSave = create<IPlaceListSave>((set) => ({
 
       return {
         placeList: [...newList],
+        status: "success",
       };
     }),
 }));
