@@ -156,7 +156,7 @@ export const KaKaoMap = () => {
         src={KAKAO_SDK_URL}
       ></Script>
       <div className="flex w-full h-full">
-        <div className="min-w-[350px] h-full overflow-y-scroll pr-5 pt-1 pl-1 scrollbar-hide relative">
+        <div className="min-w-[350px] h-full overflow-y-scroll pr-5 mt-1 pl-1 scrollbar-hide relative">
           <div className="w-full mb-5 items-center sticky top-0 flex flex-col space-y-2 bg-neutral-100">
             <SearchInput
               onChangeSearchInput={onChangeSearchInput}

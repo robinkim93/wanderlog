@@ -39,7 +39,7 @@ export const PlaceListCard = ({
     <div
       onClick={onClickCard}
       className={cn(
-        "border-t border-slate-500 cursor-pointer hover:bg-slate-300 pr-2 group",
+        "cursor-pointer hover:bg-slate-300 pr-2 group",
         info && info.id === marker.id && "bg-slate-300"
       )}
       ref={cardRef}
