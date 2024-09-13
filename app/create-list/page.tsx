@@ -5,19 +5,12 @@ import { KaKaoMapModal } from "@/components/modals/kakao-map-modal";
 import { usePlaceListSave } from "@/hooks/usePlaceListSave";
 import React, { useEffect } from "react";
 
-interface ListDetailPage {
-  params: {
-    listId: number;
-  };
-}
-
-export default function ListDetailPage({ params }: ListDetailPage) {
+export default function CreateListPage() {
   const { placeList } = usePlaceListSave();
 
   return (
     <main className="h-screen w-full">
-      {params.listId}
-      {/* <KaKaoMap /> */}
+      <KaKaoMap />
     </main>
   );
 }
