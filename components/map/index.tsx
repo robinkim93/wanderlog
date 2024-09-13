@@ -162,6 +162,7 @@ export const KaKaoMap = () => {
               onChangeSearchInput={onChangeSearchInput}
               onClickButton={onClickSearchButton}
               search={search}
+              placeholder="찾고싶은 장소를 검색해주세요."
             />
             <div className="flex space-x-2 w-full">
               <Button className="w-full" onClick={() => setListMode("search")}>
