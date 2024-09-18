@@ -150,7 +150,8 @@ export const KaKaoMap = () => {
   //   console.log(status);
   // }, [status]);
 
-  if (!isView) return <button onClick={() => setIsView(true)}>펼치기</button>;
+  if (!isView)
+    return <Button onClick={() => setIsView(true)}>지도 펼치기</Button>;
 
   return (
     <div className="flex-1 w-full h-full bg-inherit">
@@ -160,10 +161,10 @@ export const KaKaoMap = () => {
         src={KAKAO_SDK_URL}
       ></Script>
       <div className="flex w-full h-full">
-        <div className="min-w-[350px] h-full overflow-y-scroll pr-5 pt-1 pl-1 scrollbar-hide relative">
+        <div className="min-w-[350px] h-full overflow-y-scroll pr-5 pl-1 scrollbar-hide relative">
           <div className="w-full mb-5 items-center sticky top-0 flex flex-col space-y-2 bg-neutral-100">
-            <div className="flex justify-start w-full pl-3">
-              <button onClick={() => setIsView(false)}>닫기</button>
+            <div className="flex justify-start w-full">
+              <Button onClick={() => setIsView(false)}>접기</Button>
             </div>
             <SearchInput
               onChangeSearchInput={onChangeSearchInput}
