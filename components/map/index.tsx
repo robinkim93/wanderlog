@@ -30,6 +30,8 @@ export interface IMarker {
 }
 
 export const KaKaoMap = () => {
+  const [isView, setIsView] = useState<boolean>(true);
+
   const [info, setInfo] = useState<IMarker>();
   const [markers, setMarkers] = useState<IMarker[]>([]);
   const [map, setMap] = useState<kakao.maps.Map>();
@@ -89,7 +91,7 @@ export const KaKaoMap = () => {
 
   const onClickMarker = (marker: IMarker) => {
     setInfo(marker);
-    // ref 이용해서 scroll 움직이기
+    // TODO: ref 이용해서 scroll 움직이기
   };
 
   const initMap = ({ searchKeyword }: { searchKeyword?: string }) => {
@@ -101,7 +103,7 @@ export const KaKaoMap = () => {
       (data, status, _pagination) => {
         if (status === kakao.maps.services.Status.OK) {
           // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
-          // LatLngBounds 객체에 좌표를 추가합니다
+          // LatLngBounds 객체에 좌표를 추가
           const bounds = new kakao.maps.LatLngBounds();
           let markers: IMarker[] = [];
 
@@ -143,10 +145,12 @@ export const KaKaoMap = () => {
     initMap({});
   }, [map]);
 
-  // duplicate 때 툴팁으로 보여줄 수 있을듯
+  // TODO: 중복 된 데이터 추가 시, shadnc tooltip으로 중복 띄워주기
   // useEffect(() => {
   //   console.log(status);
   // }, [status]);
+
+  if (!isView) return <button onClick={() => setIsView(true)}>펼치기</button>;
 
   return (
     <div className="flex-1 w-full h-full bg-inherit">
@@ -158,6 +162,9 @@ export const KaKaoMap = () => {
       <div className="flex w-full h-full">
         <div className="min-w-[350px] h-full overflow-y-scroll pr-5 pt-1 pl-1 scrollbar-hide relative">
           <div className="w-full mb-5 items-center sticky top-0 flex flex-col space-y-2 bg-neutral-100">
+            <div className="flex justify-start w-full pl-3">
+              <button onClick={() => setIsView(false)}>닫기</button>
+            </div>
             <SearchInput
               onChangeSearchInput={onChangeSearchInput}
               onClickButton={onClickSearchButton}

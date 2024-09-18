@@ -2,14 +2,18 @@
 
 import Link from "next/link";
 import { UserAvatar } from "./user-avatar";
-import { getUser } from "@/api/get/user";
+import { getUser, googleLogin } from "@/api/get/user";
 import { useEffect, useState } from "react";
 import { UserResponse } from "@supabase/supabase-js";
-import { UserButton } from "./user-button";
+import { LoginButton } from "./user-button";
 
 export const Navbar = () => {
   const [isLogin, setIsLogin] = useState<boolean>(false);
   const [userData, setUserData] = useState<UserResponse>();
+
+  const onClickLoginButton = async () => {
+    await googleLogin();
+  };
 
   useEffect(() => {
     const setInitUserData = async () => {
@@ -25,10 +29,6 @@ export const Navbar = () => {
     setInitUserData();
   }, []);
 
-  useEffect(() => {
-    console.log(userData);
-  }, [userData]);
-
   return (
     <nav className="py-5 px-2 border-b border-black flex justify-between items-center sticky top-0 z-50 bg-inherit">
       <div className="flex space-x-8 items-center">
@@ -39,9 +39,14 @@ export const Navbar = () => {
         <div>search</div>
       </div>
       <div className="flex space-x-5 items-center">
-        {/* 아바타 버튼 (비로그인 시 회원가입 버튼) */}
-        <UserAvatar image={userData?.data.user?.user_metadata.picture} />
-        <UserButton isLogin={isLogin} setIsLogin={setIsLogin} />
+        {/* 추후 db에 유저데이터 저장하고 그 데이터를 불러와서 image src로 지정 */}
+        {isLogin ? (
+          <UserAvatar
+            image={isLogin ? userData?.data.user?.user_metadata.picture : null}
+          />
+        ) : (
+          <LoginButton onClickButton={onClickLoginButton} />
+        )}
       </div>
     </nav>
   );
