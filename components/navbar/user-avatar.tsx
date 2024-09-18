@@ -10,12 +10,14 @@ import {
 } from "../ui/dropdown-menu";
 import { logOut } from "@/api/get/user";
 import { useRouter } from "next/navigation";
+import { Dispatch, SetStateAction } from "react";
 
 interface UserAvatarProps {
   image?: string;
+  setIsLogin: Dispatch<SetStateAction<boolean>>;
 }
 
-export const UserAvatar = ({ image }: UserAvatarProps) => {
+export const UserAvatar = ({ image, setIsLogin }: UserAvatarProps) => {
   if (!image) return;
 
   const router = useRouter();
@@ -23,6 +25,7 @@ export const UserAvatar = ({ image }: UserAvatarProps) => {
   const onClickLogoutButton = async () => {
     await logOut();
     router.push("/");
+    setIsLogin(false);
   };
 
   const onClickAddPlaceButton = () => {

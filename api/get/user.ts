@@ -8,6 +8,7 @@ export const googleLogin = async () => {
         access_type: "offline",
         prompt: "consent",
       },
+      redirectTo: "/",
     },
   });
 
