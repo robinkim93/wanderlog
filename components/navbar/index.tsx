@@ -13,6 +13,7 @@ export const Navbar = () => {
 
   const onClickLoginButton = async () => {
     await googleLogin();
+    setIsLogin(true);
   };
 
   useEffect(() => {
@@ -42,6 +43,7 @@ export const Navbar = () => {
         {/* 추후 db에 유저데이터 저장하고 그 데이터를 불러와서 image src로 지정 */}
         {isLogin ? (
           <UserAvatar
+            setIsLogin={setIsLogin}
             image={isLogin ? userData?.data.user?.user_metadata.picture : null}
           />
         ) : (
