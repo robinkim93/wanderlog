@@ -19,8 +19,8 @@ export const UserButton = ({ isLogin, setIsLogin }: UserButtonProps) => {
       const { error } = await logOut();
 
       if (!error) {
-        router.push("/");
         setIsLogin(false);
+        router.push("/");
       }
     } else {
       // 로그인 안되어 있을 때

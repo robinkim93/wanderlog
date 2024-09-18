@@ -40,7 +40,7 @@ export const Navbar = () => {
       </div>
       <div className="flex space-x-5 items-center">
         {/* 아바타 버튼 (비로그인 시 회원가입 버튼) */}
-        <UserAvatar />
+        <UserAvatar image={userData?.data.user?.user_metadata.picture} />
         <UserButton isLogin={isLogin} setIsLogin={setIsLogin} />
       </div>
     </nav>
