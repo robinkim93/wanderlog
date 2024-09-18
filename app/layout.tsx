@@ -13,7 +13,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className="scrollbar-hide">
       <body className="px-10 bg-neutral-100">
         <Navbar />
         <div className="mt-10">{children}</div>
