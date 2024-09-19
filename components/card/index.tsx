@@ -33,6 +33,7 @@ export const ListCard = ({
               fill
               alt="image"
               className="object-fill"
+              priority
             />
           </div>
         </CardContent>
