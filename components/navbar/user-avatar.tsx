@@ -8,7 +8,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { logOut } from "@/api/get/user";
+import { logOut } from "@/supabase/auth";
 import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction } from "react";
 

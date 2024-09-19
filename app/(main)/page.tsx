@@ -1,5 +1,9 @@
+"use client";
+
+import { oAuthSignUp } from "@/app/api/auth/routes";
 import { ListCard } from "@/components/card";
 import { CardCarousel } from "@/components/card-carousel";
+import { useEffect } from "react";
 
 const cardData = [
   {
@@ -95,6 +99,13 @@ const cardData = [
 ];
 
 export default function MainPage() {
+  useEffect(() => {
+    const test = async () => {
+      console.log(await oAuthSignUp());
+    };
+    test();
+  }, []);
+
   return (
     <main className="w-full h-full">
       <div className="w-full h-full space-y-5">

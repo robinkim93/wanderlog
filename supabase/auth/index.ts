@@ -12,6 +12,8 @@ export const googleLogin = async () => {
     },
   });
 
+  // await oAuthSignUp();
+
   return { data, error };
 };
 
@@ -19,10 +21,4 @@ export const logOut = async () => {
   const { error } = await supabase.auth.signOut();
 
   return { error };
-};
-
-export const getUser = async () => {
-  const userData = await supabase.auth.getUser();
-
-  return userData;
 };

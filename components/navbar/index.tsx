@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { UserAvatar } from "./user-avatar";
-import { getUser, googleLogin } from "@/api/get/user";
+import { googleLogin } from "@/supabase/auth";
+import { getUser } from "@/supabase/user";
 import { ChangeEvent, useEffect, useState } from "react";
 import { UserResponse } from "@supabase/supabase-js";
 import { LoginButton } from "./user-button";
