@@ -2,6 +2,7 @@
 
 import { KaKaoMap } from "@/components/map";
 import { KaKaoMapModal } from "@/components/modals/kakao-map-modal";
+import { useAuthStore } from "@/hooks/useAuth";
 import { usePlaceListSave } from "@/hooks/usePlaceListSave";
 import React, { useEffect } from "react";
 

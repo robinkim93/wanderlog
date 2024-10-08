@@ -10,8 +10,6 @@ import { usePlaceListSave } from "@/hooks/usePlaceListSave";
 import { SearchInput } from "../search-input";
 import { Button } from "../ui/button";
 
-const KAKAO_SDK_URL = process.env.NEXT_PUBLIC_KAKAO_SDK_URL!;
-
 export interface IMarker {
   position: {
     lat: number;
@@ -31,6 +29,7 @@ export interface IMarker {
 
 export const KaKaoMap = () => {
   const [isView, setIsView] = useState<boolean>(true);
+  const [isScriptLoaded, setIsScriptLoaded] = useState(false);
 
   const [info, setInfo] = useState<IMarker>();
   const [markers, setMarkers] = useState<IMarker[]>([]);
@@ -137,10 +136,6 @@ export const KaKaoMap = () => {
     );
   };
 
-  // useEffect(() => {
-  //   console.log(markers);
-  // }, [markers]);
-
   useEffect(() => {
     initMap({});
   }, [map]);
@@ -155,11 +150,6 @@ export const KaKaoMap = () => {
 
   return (
     <div className="flex-1 w-full h-full bg-inherit">
-      <Script
-        type="text/javascript"
-        strategy="beforeInteractive"
-        src={KAKAO_SDK_URL}
-      ></Script>
       <div className="flex w-full h-full">
         <div className="min-w-[350px] h-full overflow-y-scroll pr-5 pl-1 scrollbar-hide relative">
           <div className="w-full mb-5 items-center sticky top-0 flex flex-col space-y-2 bg-neutral-100">
@@ -217,48 +207,50 @@ export const KaKaoMap = () => {
           </div>
         </div>
 
-        <Map
-          center={
-            info
-              ? info.position
-              : {
-                  lat: 37.566826,
-                  lng: 126.9786567,
-                }
-          }
-          className="w-full h-full"
-          level={info ? 3 : 6}
-          onCreate={setMap}
-        >
-          {markers.map((marker) => {
-            return (
-              <>
-                <MapMarker
-                  key={`marker-${marker.place_name}-${marker.position.lat},${marker.position.lng}`}
-                  position={marker.position}
-                  onClick={() => onClickMarker(marker)}
-                  {...(marker.isSelected
-                    ? {
-                        image: {
-                          src: "/saved_marker.png",
-                          size: { width: 60, height: 65 },
-                        },
-                      }
-                    : {
-                        image: {
-                          src: "/marker.png",
-                          size: { width: 30, height: 45 },
-                        },
-                      })}
-                >
-                  {info && info.place_name === marker.place_name && (
-                    <InfoWindow marker={marker} />
-                  )}
-                </MapMarker>
-              </>
-            );
-          })}
-        </Map>
+        {
+          <Map
+            center={
+              info
+                ? info.position
+                : {
+                    lat: 37.566826,
+                    lng: 126.9786567,
+                  }
+            }
+            className="w-full h-full"
+            level={info ? 3 : 6}
+            onCreate={setMap}
+          >
+            {markers.map((marker) => {
+              return (
+                <>
+                  <MapMarker
+                    key={`marker-${marker.place_name}-${marker.position.lat},${marker.position.lng}`}
+                    position={marker.position}
+                    onClick={() => onClickMarker(marker)}
+                    {...(marker.isSelected
+                      ? {
+                          image: {
+                            src: "/saved_marker.png",
+                            size: { width: 60, height: 65 },
+                          },
+                        }
+                      : {
+                          image: {
+                            src: "/marker.png",
+                            size: { width: 30, height: 45 },
+                          },
+                        })}
+                  >
+                    {info && info.place_name === marker.place_name && (
+                      <InfoWindow marker={marker} />
+                    )}
+                  </MapMarker>
+                </>
+              );
+            })}
+          </Map>
+        }
       </div>
     </div>
   );

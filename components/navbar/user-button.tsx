@@ -1,9 +1,11 @@
 "use client";
 
+import { Button } from "../ui/button";
+
 interface LoginButtonProps {
-  onClickButton: () => void;
+  // onClickButton?: () => void;
 }
 
-export const LoginButton = ({ onClickButton }: LoginButtonProps) => {
-  return <button onClick={onClickButton}>로그인</button>;
+export const LoginButton = () => {
+  return <Button>로그인</Button>;
 };

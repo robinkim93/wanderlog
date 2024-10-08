@@ -1,5 +1,8 @@
+"use client";
+
 import { ListCard } from "@/components/card";
 import { CardCarousel } from "@/components/card-carousel";
+import { useEffect } from "react";
 
 const cardData = [
   {
