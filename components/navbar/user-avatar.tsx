@@ -8,24 +8,52 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { logOut } from "@/supabase/auth";
+import { deleteUser } from "@/supabase/auth";
 import { useRouter } from "next/navigation";
-import { Dispatch, SetStateAction } from "react";
+import { getUser } from "@/supabase/user";
+import { useAuthStore } from "@/hooks/useAuth";
+import { useConfirmModal } from "@/hooks/useConfirmModal";
+import { toast } from "sonner";
 
 interface UserAvatarProps {
   image?: string;
-  setIsLogin: Dispatch<SetStateAction<boolean>>;
 }
 
-export const UserAvatar = ({ image, setIsLogin }: UserAvatarProps) => {
+export const UserAvatar = ({ image }: UserAvatarProps) => {
+  const { user, initializeAuth, logout } = useAuthStore();
+  const { onOpen: openConfirmModal, onClose } = useConfirmModal();
+
   if (!image) return;
 
   const router = useRouter();
 
   const onClickLogoutButton = async () => {
-    await logOut();
-    router.push("/");
-    setIsLogin(false);
+    openConfirmModal({
+      title: "로그아웃",
+      content: "로그아웃 하시겠습니까?",
+      onClickConfirmButton: async () => {
+        const { data, error } = await getUser();
+        if (!data) return;
+        await logout();
+        onClose();
+        toast.success("로그아웃 되었습니다.");
+      },
+    });
+  };
+
+  const onClickDeleteUserButton = async () => {
+    openConfirmModal({
+      title: "회원탈퇴",
+      content: "탈퇴하시겠습니까?",
+      onClickConfirmButton: async () => {
+        const { data, error } = await getUser();
+        if (!data) return;
+        await deleteUser();
+        await logout();
+        onClose();
+        toast.success("탈퇴되었습니다.");
+      },
+    });
   };
 
   const onClickAddPlaceButton = () => {
@@ -39,9 +67,9 @@ export const UserAvatar = ({ image, setIsLogin }: UserAvatarProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Avatar className="h-7 w-7">
+        <Avatar className="h-10 w-10">
           <AvatarImage src={image} />
-          <AvatarFallback />
+          <AvatarFallback></AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent
@@ -70,6 +98,12 @@ export const UserAvatar = ({ image, setIsLogin }: UserAvatarProps) => {
           className="text-red-600 font-semibold text-lg justify-center"
         >
           로그아웃
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={onClickDeleteUserButton}
+          className="text-red-600 font-semibold text-lg justify-center"
+        >
+          회원탈퇴
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
